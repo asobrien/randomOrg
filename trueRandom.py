@@ -2,6 +2,50 @@
 
 import urllib
 
+# New Code
+import urllib2
+import os.path
+
+
+RANDOM_URL = 'http://www.random.org'
+
+def integers(num, minimum, maximum, base=10):
+    """Docstring."""
+    FUNC_TYPE = 'integers'
+    
+    num, minimum, maximum = map(int, [num, minimum, maximum])
+    # Attribute error ?
+    
+    base = int(base)
+    
+    if base not in [2,8,10,16]:
+        raise
+    
+    opts = {'num':num, 
+            'min':minimum, 
+            'max':maximum, 
+            'col':1, 
+            'base':base, 
+            'format':'plain',
+            'rnd':'new'}
+    
+    url_opts = urllib.urlencode(opts)
+    full_url = os.path.join(RANDOM_URL, FUNC_TYPE) + '/?' + url_opts
+    data = urllib2.urlopen(full_url)
+    if data.code == 200: 
+        # Status is Good
+        arr = np.fromstring(data.read(), sep='\n', dtype='int')
+    else:
+        print "random.org returned server code: %s" % data.code
+    return arr
+    
+    
+    
+    
+
+
+
+
 #################################
 ####### START OF PROGRAM ########
 #################################
