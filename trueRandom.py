@@ -1,13 +1,12 @@
 # HTTP GET to interact with Random.org
 
 import urllib
-
-# New Code
 import urllib2
 import os.path
 
-
+# CONFIG
 RANDOM_URL = 'http://www.random.org'
+
 
 def integers(num, minimum, maximum, base=10):
     """Docstring."""
@@ -38,6 +37,39 @@ def integers(num, minimum, maximum, base=10):
     else:
         print "random.org returned server code: %s" % data.code
     return arr
+
+base_url = 'http://www.random.org'
+function = 'integers'
+opts = {'num':num, 
+            'min':minimum, 
+            'max':maximum, 
+            'col':1, 
+            'base':base, 
+            'format':'plain',
+            'rnd':'new'}
+
+def get_http(base_url, function, opts):
+    url = (os.path.join(base_url, function) + '/?' +   
+                 urllib.urlencode(opts))
+    data = urllib2.urlopen(url)
+    
+    if data.code != 200:
+        raise ValueError("Random.rg returned server code: " + str(data.code))
+        
+    return data.read()
+
+    
+def str_to_arr(string):
+    arr = np.fromstring(string, sep='\n', dtype='int')
+    
+    return arr
+    
+
+    
+    
+    
+    
+    
     
     
     
