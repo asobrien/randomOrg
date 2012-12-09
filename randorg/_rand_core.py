@@ -17,7 +17,7 @@ RANDOM_URL = 'http://www.random.org'
 def integers(num, minimum, maximum, base=10):
     # TODO: Ensure numbers within bounds
     """Docstring."""
-    FUNC_TYPE = 'integers'
+    function = 'integers'
     
     num, minimum, maximum = map(int, [num, minimum, maximum])
     # Attribute error ?
