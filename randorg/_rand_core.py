@@ -35,7 +35,7 @@ def integers(num, minimum, maximum, base=10):
             'format':'plain',
             'rnd':'new'}
     integers = get_http(RANDOM_URL, function, opts)
-    integers_arr = str_to_arr(intergers)
+    integers_arr = str_to_arr(integers)
     return integers_arr
 
 
