@@ -16,11 +16,71 @@ RANDOM_URL = 'http://www.random.org'
 
 def integers(num, minimum, maximum, base=10):
     # TODO: Ensure numbers within bounds
-    """Docstring."""
+    """Random integers within specified interval.
+    
+    The integer generator generates truly random integers in the specified 
+    interval. 
+                        
+    Parameters
+    ----------
+    num : int, bounds=[1, 1E4]
+          Total number of integers in returned array.
+    minimum : int, bounds=[-1E9, 1E9]
+              Minimum value (inclusive) of returned integers.
+    maximum : int, bounds=[-1E9, 1E9]
+              Maximum value (inclusive) of returned integers.
+    base: int, values=[2, 8, 10, 16], default=10
+          Base used to print numbers in array, the default is decimal 
+          representation (base=10).
+    
+    Returns
+    -------
+    integers : array
+               A 1D numpy array containing integers between the specified
+               bounds.
+    
+    Examples
+    --------
+    Generate an array of 10 integers with values between -100 and 100, 
+    inclusive:
+    
+    >>> from randorg import integers
+    >>> array = integers(10, -100, 100)
+
+    A coin toss, where heads=1 and tails=0, with multiple flips (flips should 
+    be an odd number):
+    
+    >>> from randorg import integers
+    >>> def coin_toss(flips=5):
+    >>>     result = integers(flips, 0, 1, base=2).sum()
+    >>>     if result/float(flips) > 0.5:
+    >>>         print 'HEADS wins!'
+    >>>     else:
+    >>>         print 'TAILS wins!'
+    >>>
+    >>> coin_toss(3)
+        
+    
+    """
     function = 'integers'
     
     num, minimum, maximum = map(int, [num, minimum, maximum])
-    # Attribute error ?
+    
+    # INPUT ERROR CHECKING
+    # Check input values are within range
+    if (1 <= num <= 10**4) is False:
+        print 'ERROR: %s is out of range' % num
+        break
+    if (-10**9 <= minimum <= 10**9) is False:
+        print 'ERROR: %s is out of range' % minimum
+        break
+    if (-10**9 <= maximum <= 10**9) is False:
+        print 'ERROR: %s is out of range' % maximum
+        break
+    if (maximum<minimum):
+        print 'ERROR: %s is less than %s' % (maximum, minimum)
+        break
+    
     
     base = int(base)
     
