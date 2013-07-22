@@ -9,7 +9,7 @@ setup(
     url='https://github.com/asobrien/randomOrg',
     license='LICENSE.txt',
     description='A Python wrapper to the Random.Org service.',
-    long_description=open('README.txt').read(),
+    long_description=open('README.rst').read(),
     install_requires=[
         "numpy",
     ],
