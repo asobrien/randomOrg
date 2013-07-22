@@ -22,11 +22,11 @@ This is known to work using IPython (v0.13) and Python (2.7.3).
 
 INSTALLATION
 ------------
-Install the egg with `easy_install` by running:
+Install with pip by running:
 
-	easy_install https://github.com/downloads/asobrien/randomOrg/randorg-0.1.egg
+	pip install randorg
 	
-You may need to run the command above using `sudo`
+See below for usage examples.
 
 
 USAGE EXAMPLES
