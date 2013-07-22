@@ -70,16 +70,16 @@ def integers(num, minimum, maximum, base=10):
     # Check input values are within range
     if (1 <= num <= 10**4) is False:
         print 'ERROR: %s is out of range' % num
-        break
+        return
     if (-10**9 <= minimum <= 10**9) is False:
         print 'ERROR: %s is out of range' % minimum
-        break
+        return
     if (-10**9 <= maximum <= 10**9) is False:
         print 'ERROR: %s is out of range' % maximum
-        break
+        return
     if (maximum<minimum):
         print 'ERROR: %s is less than %s' % (maximum, minimum)
-        break
+        return
     
     
     base = int(base)
