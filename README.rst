@@ -1,19 +1,27 @@
-=========
-RandomOrg
-=========
+=======
+RandOrg
+=======
 
-A Python Interface to the `Random.org <http://www.random.org>`_ web service.
+A Python Interface to the `Random.org <http://www.random.org>`_ web service. 
+Provides a python wrapper to the following Random.org API calls:
+
+- INTEGERS
+- SEQUENCE
+- STRING
+- QUOTA
+
+See below for usage examples.
 
 
 DEPENDENCIES
-----------
+------------
 * Numpy
 
 This is known to work using IPython (v0.13) and Python (2.7.3).
 
 
 INSTALLATION
-----------
+------------
 Install the egg with `easy_install` by running:
 
 	easy_install https://github.com/downloads/asobrien/randomOrg/randorg-0.1.egg
@@ -26,6 +34,8 @@ USAGE EXAMPLES
 
 The package can be used as follows:
 
+.. code:: python
+	
 	import randomorg as ro
 	
 	# Generate 5 integers between 1 and 100
@@ -44,13 +54,3 @@ The package can be used as follows:
 
 That pretty much sums up the functions included in the random.org api. More information on the random.org api can be found `here <http://www.random.org/clients/http/>`_.
 
-
-VERSION LOG
----------
-
-### v0.1 ###
-* Initial release, contains core api functions:
-	- INTEGERS
-	- SEQUENCE
-	- STRING
-    - QUOTA
