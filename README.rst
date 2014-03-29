@@ -24,6 +24,8 @@ INSTALLATION
 ------------
 Install with pip by running:
 
+.. code:: bash
+
 	pip install randorg
 	
 See below for usage examples.
