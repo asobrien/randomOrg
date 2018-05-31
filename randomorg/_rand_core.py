@@ -1,7 +1,10 @@
 from __future__ import absolute_import, print_function
 
 # CORE UTILITIES TO CREATE HTTP GET REQUESTS TO INTERACT WITH RANDOM.ORG
+import os.path
 import sys
+import numpy as np
+
 # if python version below 3
 if sys.version_info < (3,):
     from urllib2 import urlopen
@@ -10,11 +13,10 @@ else:
     from urllib.request import urlopen
     from urllib.parse import urlencode
 
-import os.path
-import numpy as np
-
 ### CONFIG ###
 RANDOM_URL = 'https://www.random.org'
+
+
 ### END CONFIG ###
 
 
@@ -23,10 +25,10 @@ RANDOM_URL = 'https://www.random.org'
 def integers(num, minimum, maximum, base=10):
     # TODO: Ensure numbers within bounds
     """Random integers within specified interval.
-    
-    The integer generator generates truly random integers in the specified 
-    interval. 
-                        
+
+    The integer generator generates truly random integers in the specified
+    interval.
+
     Parameters
     ----------
     num : int, bounds=[1, 1E4]
@@ -36,23 +38,23 @@ def integers(num, minimum, maximum, base=10):
     maximum : int, bounds=[-1E9, 1E9]
               Maximum value (inclusive) of returned integers.
     base: int, values=[2, 8, 10, 16], default=10
-          Base used to print numbers in array, the default is decimal 
+          Base used to print numbers in array, the default is decimal
           representation (base=10).
-    
+
     Returns
     -------
     integers : array
                A 1D numpy array containing integers between the specified
                bounds.
-    
+
     Examples
     --------
-    Generate an array of 10 integers with values between -100 and 100, 
+    Generate an array of 10 integers with values between -100 and 100,
     inclusive:
-    
+
     >>> integers(10, -100, 100)
 
-    A coin toss, where heads=1 and tails=0, with multiple flips (flips should 
+    A coin toss, where heads=1 and tails=0, with multiple flips (flips should
     be an odd number):
 
     >>> sum(integers(5, 0, 1))
@@ -73,7 +75,7 @@ def integers(num, minimum, maximum, base=10):
     if (-10 ** 9 <= maximum <= 10 ** 9) is False:
         print('ERROR: %s is out of range' % maximum)
         return
-    if (maximum < minimum):
+    if maximum < minimum:
         print('ERROR: %s is less than %s' % (maximum, minimum))
         return
 
@@ -110,7 +112,7 @@ def string(num, length, digits=False, upper=True, lower=True, unique=False):
     """Random strings."""
     function = 'strings'
     # Convert arguments to random.org style
-    # for a discussion on the method see: http://bit.ly/TKGkOF 
+    # for a discussion on the method see: http://bit.ly/TKGkOF
     digits = convert(digits)
     upper = convert(upper)
     lower = convert(lower)
@@ -125,7 +127,7 @@ def string(num, length, digits=False, upper=True, lower=True, unique=False):
             'rnd': 'new'}
     seq = get_http(RANDOM_URL, function, opts)
     seq = seq.strip().split('\n')  # convert to list
-    # seq_arr = str_to_arr(seq)  # 
+    # seq_arr = str_to_arr(seq)
     return seq
 
 
@@ -161,13 +163,11 @@ def str_to_arr(string):
 
 def convert(self):
     # TODO: Add proper TypeError
-    if self == True:
-        self = 'on'
-        return self
-    elif self == False:
-        self = 'off'
-        return self
-    else:
+    if not isinstance(self, bool):
         return "TypeERROR: not a boolean"
+    if self:
+        return 'on'
+    else:
+        return 'off'
 
 # EOF
