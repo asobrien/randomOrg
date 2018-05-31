@@ -1,15 +1,21 @@
-# CORE UTILITIES TO CREATE HTTP GET REQUESTS TO INTERACT WITH RANDOM.ORG
+from __future__ import absolute_import, print_function
 
-import urllib
-import urllib2
+# CORE UTILITIES TO CREATE HTTP GET REQUESTS TO INTERACT WITH RANDOM.ORG
+import sys
+# if python version below 3
+if sys.version_info < (3,):
+    from urllib2 import urlopen
+    from urllib import urlencode
+else:
+    from urllib.request import urlopen
+    from urllib.parse import urlencode
+
 import os.path
 import numpy as np
-
 
 ### CONFIG ###
 RANDOM_URL = 'http://www.random.org'
 ### END CONFIG ###
-
 
 
 ### MAIN FUNCTIONS ###
@@ -44,56 +50,44 @@ def integers(num, minimum, maximum, base=10):
     Generate an array of 10 integers with values between -100 and 100, 
     inclusive:
     
-    >>> from randorg import integers
-    >>> array = integers(10, -100, 100)
+    >>> integers(10, -100, 100)
 
     A coin toss, where heads=1 and tails=0, with multiple flips (flips should 
     be an odd number):
-    
-    >>> from randorg import integers
-    >>> def coin_toss(flips=5):
-    >>>     result = integers(flips, 0, 1, base=2).sum()
-    >>>     if result/float(flips) > 0.5:
-    >>>         print 'HEADS wins!'
-    >>>     else:
-    >>>         print 'TAILS wins!'
-    >>>
-    >>> coin_toss(3)
-        
-    
+
+    >>> sum(integers(5, 0, 1))
+
     """
     function = 'integers'
-    
-    num, minimum, maximum = map(int, [num, minimum, maximum])
-    
+
+    num, minimum, maximum = list(map(int, [num, minimum, maximum]))
+
     # INPUT ERROR CHECKING
     # Check input values are within range
-    if (1 <= num <= 10**4) is False:
-        print 'ERROR: %s is out of range' % num
+    if (1 <= num <= 10 ** 4) is False:
+        print('ERROR: %s is out of range' % num)
         return
-    if (-10**9 <= minimum <= 10**9) is False:
-        print 'ERROR: %s is out of range' % minimum
+    if (-10 ** 9 <= minimum <= 10 ** 9) is False:
+        print('ERROR: %s is out of range' % minimum)
         return
-    if (-10**9 <= maximum <= 10**9) is False:
-        print 'ERROR: %s is out of range' % maximum
+    if (-10 ** 9 <= maximum <= 10 ** 9) is False:
+        print('ERROR: %s is out of range' % maximum)
         return
-    if (maximum<minimum):
-        print 'ERROR: %s is less than %s' % (maximum, minimum)
+    if (maximum < minimum):
+        print('ERROR: %s is less than %s' % (maximum, minimum))
         return
-    
-    
+
     base = int(base)
-    
-    if base not in [2,8,10,16]:
-        raise
-    
-    opts = {'num':num, 
-            'min':minimum, 
-            'max':maximum, 
-            'col':1, 
-            'base':base, 
-            'format':'plain',
-            'rnd':'new'}
+    if base not in [2, 8, 10, 16]:
+        raise Exception('Base not in range!')
+
+    opts = {'num': num,
+            'min': minimum,
+            'max': maximum,
+            'col': 1,
+            'base': base,
+            'format': 'plain',
+            'rnd': 'new'}
     integers = get_http(RANDOM_URL, function, opts)
     integers_arr = str_to_arr(integers)
     return integers_arr
@@ -102,11 +96,11 @@ def integers(num, minimum, maximum, base=10):
 def sequence(minimum, maximum):
     """Randomize a sequence of integers."""
     function = 'sequences'
-    opts = {'min':minimum, 
-            'max':maximum, 
-            'col':1, 
-            'format':'plain',
-            'rnd':'new'}
+    opts = {'min': minimum,
+            'max': maximum,
+            'col': 1,
+            'format': 'plain',
+            'rnd': 'new'}
     deal = get_http(RANDOM_URL, function, opts)
     deal_arr = str_to_arr(deal)
     return deal_arr
@@ -121,14 +115,14 @@ def string(num, length, digits=False, upper=True, lower=True, unique=False):
     upper = convert(upper)
     lower = convert(lower)
     unique = convert(unique)
-    
-    opts = {'num':num, 
-            'len':length, 
-            'digits':digits, 
-            'upperalpha':upper, 
-            'loweralpha':lower, 
-            'format':'plain',
-            'rnd':'new'}
+
+    opts = {'num': num,
+            'len': length,
+            'digits': digits,
+            'upperalpha': upper,
+            'loweralpha': lower,
+            'format': 'plain',
+            'rnd': 'new'}
     seq = get_http(RANDOM_URL, function, opts)
     seq = seq.strip().split('\n')  # convert to list
     # seq_arr = str_to_arr(seq)  # 
@@ -139,7 +133,7 @@ def quota(ip=None):
     """Check your quota."""
     # TODO: Add arbitrary user defined IP check
     url = 'http://www.random.org/quota/?format=plain'
-    data = urllib2.urlopen(url)
+    data = urlopen(url)
     credit = int(data.read().strip())
     if data.code == 200:
         return credit
@@ -147,21 +141,18 @@ def quota(ip=None):
         return "ERROR: Server responded with code %s" % data.code
 
 
-
-
 ### HELPER FUNCTIONS ###
 
 def get_http(base_url, function, opts):
     """HTTP request generator."""
-    url = (os.path.join(base_url, function) + '/?' +   
-                 urllib.urlencode(opts))
-    data = urllib2.urlopen(url)
-    
+    url = (os.path.join(base_url, function) + '/?' + urlencode(opts))
+    data = urlopen(url)
+
     if data.code != 200:
-        raise ValueError("Random.rg returned server code: " + str(data.code)) 
+        raise ValueError("Random.rg returned server code: " + str(data.code))
     return data.read()
 
-    
+
 def str_to_arr(string):
     """Converts string to numpy array."""
     arr = np.fromstring(string, sep='\n', dtype='int')
@@ -176,7 +167,7 @@ def convert(self):
     elif self == False:
         self = 'off'
         return self
-    else: 
+    else:
         return "TypeERROR: not a boolean"
 
 # EOF

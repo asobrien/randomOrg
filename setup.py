@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='RandOrg',
-    version='0.1.0',
+    version='0.2.0',
     author="Anthony O'Brien",
     author_email='bftm@permil.org',
     packages=['randomorg'],
