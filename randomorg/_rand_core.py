@@ -14,7 +14,7 @@ import os.path
 import numpy as np
 
 ### CONFIG ###
-RANDOM_URL = 'http://www.random.org'
+RANDOM_URL = 'https://www.random.org'
 ### END CONFIG ###
 
 
